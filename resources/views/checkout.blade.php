@@ -26,15 +26,15 @@
                         <h3>Checkout Barang Anda</h3>
                         <div class="d-flex">
                             <p style="margin-top: 10px; font-size: large;">Total Semua Buku :  <span style="font-weight: 500; margin-right: 10px;">Rp. {{ number_format($totalSemua, 2, ',','.') }}</span></p>
-                            <button style="background-color: blue; border-radius: 2px; width: 100px;font-size: large;" class="btn text-white">Bayar</button>
+                            <button id="btnCheckout" style="background-color: blue; border-radius: 2px; width: 100px;font-size: large;" class="btn text-white" disabled>Bayar</button>
                         </div>
                         </div>
                         <div class="mt-3 d-flex justify-content-between">
                             <input type="text" class="form-control w-50" name="uang_dibayarkan" placeholder="Uang dibayarkan..." id="uangDibayarkan">
-                            <p >Uang Kembalian : <span style="font-weight: 500" id="uangKembali">Rp. 50.000</span></p>
+                            <p >Uang Kembalian : <span style="font-weight: 500" id="uangKembali">Rp. 0</span></p>
                         </div>
                         <div class="mt-3">
-                            <input type="text" class="form-control" placeholder="namaPembeli" name="nama_pembeli">
+                            <input type="text" class="form-control" placeholder="Nama Pembeli" name="nama_pembeli" required>
                         </div>
                 </form>
             </div>
@@ -81,9 +81,9 @@
                             Rp. {{  number_format($item->book->harga_buku * $item->qty,2,',','.') }};
                         </td>
                         <td>
-                            <button style="border-radius: 2px;" class="btn btn-danger">
+                            <a href="" style="border-radius: 2px;" class="btn btn-danger">
                                 Hapus
-                            </button>
+                            </a>
                         </td>
                     </tr>
                        @endforeach
@@ -93,17 +93,26 @@
         </div>
     </div>
 
-    {{-- <script>
+    <script>
         document.addEventListener('DOMContentLoaded', function () {
             var input = document.getElementById('uangDibayarkan');
             var lblKembali = document.getElementById('uangKembali');
+            var btnCheckout = document.getElementById('btnCheckout');
 
             input.addEventListener('input', (()=>{
                 var uangDibayarkan = parseInt(input.value) || 0;
-                var kembali = @json($totalSemua) - uangDibayarkan;
-                lblKembali.textContent = 'Rp. ' + kembali.toFixed(2);
+                var kembali = uangDibayarkan - {{ $totalSemua }};
+
+                if (uangDibayarkan < {{ $totalSemua }}) {
+                    lblKembali.textContent = "Uang tidak cukup";
+                    btnCheckout.disabled = true; 
+                } else {
+                    lblKembali.textContent = 'Rp. ' + kembali.toFixed(2);
+                    btnCheckout.disabled = false;
+                }
+
             }));
         });
-    </script> --}}
+    </script>
 </body>
 </html>

@@ -38,6 +38,8 @@ Route::prefix('pustakawan')->group(function () {
 
     Route::get('/history', [BookController::class, 'history'])->name('history');
 
+    Route::get('/caribuku', [BookController::class, 'caribuku'])->name('caribuku');
+    Route::get('/hapuscheckout', [BookController::class, 'hapuscheckout'])->name('hapuscheckout');
 });
 
 Route::prefix('admin')->group(function () {

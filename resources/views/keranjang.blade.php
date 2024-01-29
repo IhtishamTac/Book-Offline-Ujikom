@@ -17,13 +17,17 @@
     <div class="container mt-5">
         <div class="d-flex justify-content-between">
             <h5>Klik checkout untuk membayar semua buku dalam keranjang</h4>
-                <a href="{{route('checkout', ['tranID' => json_encode($trans->pluck('id'))]) }}" class="btn btn-primary" style="border-radius: 2px">Checkout</a>
+                @if ($trans->count() > 0)
+                    <a href="{{route('checkout', ['tranID' => json_encode($trans->pluck('id'))]) }}" class="btn btn-primary" style="border-radius: 2px">Checkout</a>
+                @endif
         </div>
         <div class="mt-3">
             <div class="row">
                 <div class="d-flex justify-content-end">
                     <p style="margin-right: 10px; margin-top: 10px;">Cari Buku anda : </p>
-                    <input type="search" placeholder="Cari..." name="cariTransaksi" class="form-control w-50">
+                    <form action="{{ route('caribuku') }}">
+                        <input type="search" placeholder="Cari..." oninput="this.form.submit()" name="cariTransaksi" class="form-control">
+                    </form>
                 </div>
                 @foreach ($trans as $trn)
                 <div class="col-2 mt-3">

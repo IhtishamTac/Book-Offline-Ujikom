@@ -17,6 +17,17 @@ class BookController extends Controller
         return view('welcome', compact('books'));
     }
 
+    public function caribuku(Request $request){
+        $searchTerm = $request->input('cariBuku');
+        if($searchTerm){
+            $books = Book::where('judul_buku', 'LIKE', "%{$searchTerm}%")->get();
+        }else{
+            $books = Book::all();
+        }
+
+        return view('welcome', compact('books'));
+    }
+
     public function log(){
         $log = Log::where('user_id', auth()->id())->with('user')->get();
         return view('log', compact('log'));
@@ -89,11 +100,15 @@ class BookController extends Controller
         return redirect()->route('home');
     }
 
+    public function hapuscheckout() {
+        
+    }
+
     public function history() {
         $transaksi = Transaksi::where([
             'user_id' => auth()->id(),
             'status' => 'Dibayar'
-        ])->get();
+        ])->with('book')->get();
 
         return view('history-pembelian', compact('transaksi'));
     }

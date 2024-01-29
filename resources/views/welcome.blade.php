@@ -19,6 +19,11 @@
                     {{ Session::get('message') }}
                 </span>
             @endif
+               <form action="{{ route('caribuku') }}" method="GET">
+                    <div class="d-flex gap-2">
+                        <input type="search" name="cariBuku" class="form-control" oninput="this.form.submit()" placeholder="Cari Buku">
+                    </div>
+                </form>
         </div>
         <div class="mt-4">
             <div class="row">
