@@ -53,15 +53,15 @@ class BookController extends Controller
        }
     }
     public function keranjang(){
-        $trans = Transaksi::where(['user_id' => auth()->id(), 'status' => 'Pending'])->with('book')->get();
-        return view('keranjang', compact('trans'));
-    }
-
-    public function checkout($tranID){
-        $transacId = json_decode($tranID);
-        $transaksi = Transaksi::whereIn('id', $transacId)->where('status', 'Pending')->with('book')->get();
+        $transaksi = Transaksi::where(['user_id' => auth()->id(), 'status' => 'Pending'])->with('book')->get();
         return view('checkout', compact('transaksi'));
     }
+
+    // public function checkout($tranID){
+    //     $transacId = json_decode($tranID);
+    //     $transaksi = Transaksi::whereIn('id', $transacId)->where('status', 'Pending')->with('book')->get();
+    //     return view('checkout', compact('transaksi'));
+    // }
     
     public function postcheckout(Request $request, $tranID){
         $request->validate([
@@ -100,8 +100,14 @@ class BookController extends Controller
         return redirect()->route('home');
     }
 
-    public function hapuscheckout() {
-        
+    public function hapuskeranjang($id) {
+        $keranjang = Transaksi::where('id', $id)->first();
+        if(!$keranjang){
+            return redirect()->back()->with('error', 'Failed to delete');
+        }
+        if($keranjang->delete()){
+            return redirect()->back()->with('message', 'Berhasil dihapus');
+        }
     }
 
     public function history() {

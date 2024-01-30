@@ -17,12 +17,18 @@
     <div class="container mt-5">
         <div class="d-flex justify-content-between">
             <h5>Klik checkout untuk membayar semua buku dalam keranjang</h4>
+                
                 @if ($trans->count() > 0)
                     <a href="{{route('checkout', ['tranID' => json_encode($trans->pluck('id'))]) }}" class="btn btn-primary" style="border-radius: 2px">Checkout</a>
                 @endif
         </div>
         <div class="mt-3">
             <div class="row">
+                @if (Session::has('message'))
+                <span class="alert alert-success">
+                    {{ Session::get('message') }}
+                </span>
+            @endif
                 <div class="d-flex justify-content-end">
                     <p style="margin-right: 10px; margin-top: 10px;">Cari Buku anda : </p>
                     <form action="{{ route('caribuku') }}">
@@ -51,6 +57,7 @@
                             <p style="font-weight: 500">Rp. {{ number_format($trn->book->harga_buku * $trn->qty,2,',','.') }}</p>
                         </div>
                     </div>
+                    <a href="{{ route('hapuskeranjang', $trn->id) }}" class="btn btn-danger" style="border-radius: 2px;">Batalkan</a>
                 </div>
                 @endforeach
             </div>

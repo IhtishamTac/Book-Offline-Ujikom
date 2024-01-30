@@ -12,13 +12,10 @@
 <body>
     @include('layout.nav')
     <div class="container mt-5" style="padding-bottom: 100px;">
+        
         <div class="d-flex justify-content-between">
             <h2>Pilih buku yang akan dipesan</h2>
-            @if (Session::has('message'))
-                <span class="alert alert-success">
-                    {{ Session::get('message') }}
-                </span>
-            @endif
+            
                <form action="{{ route('caribuku') }}" method="GET">
                     <div class="d-flex gap-2">
                         <input type="search" name="cariBuku" class="form-control" oninput="this.form.submit()" placeholder="Cari Buku">
@@ -27,6 +24,11 @@
         </div>
         <div class="mt-4">
             <div class="row">
+                @if (Session::has('message'))
+                <span class="alert alert-success">
+                    {{ Session::get('message') }}
+                </span>
+            @endif
                 @foreach ($books as $book)
                     <div class="col-2 mt-3">
                         <img src="{{ asset($book->sampul_buku) }}" width="100px" alt="sampul" class="card-img-top">

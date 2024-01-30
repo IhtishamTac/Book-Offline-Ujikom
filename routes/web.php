@@ -16,9 +16,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('welcome');
+// });
 Route::get('/', function () {
     return view('login');
 })->name('login');
@@ -33,13 +33,13 @@ Route::prefix('pustakawan')->group(function () {
     Route::post('/post-keranjang/{id}', [BookController::class, 'postkeranjang'])->name('post-keranjang');
     Route::get('/keranjang', [BookController::class, 'keranjang'])->name('keranjang');
 
-    Route::get('/checkout/{tranID}', [BookController::class, 'checkout'])->name('checkout');
+    // Route::get('/checkout/{tranID}', [BookController::class, 'checkout'])->name('checkout');
     Route::post('/postcheckout/{tranID}', [BookController::class, 'postcheckout'])->name('postcheckout');
 
     Route::get('/history', [BookController::class, 'history'])->name('history');
 
     Route::get('/caribuku', [BookController::class, 'caribuku'])->name('caribuku');
-    Route::get('/hapuscheckout', [BookController::class, 'hapuscheckout'])->name('hapuscheckout');
+    Route::get('/hapuskeranjang/{id}', [BookController::class, 'hapuskeranjang'])->name('hapuskeranjang');
 });
 
 Route::prefix('admin')->group(function () {
